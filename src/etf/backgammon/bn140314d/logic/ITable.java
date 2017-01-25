@@ -10,7 +10,6 @@ public interface ITable {
      * Total number of fields on the table
      */
     int NUMBER_OF_FIELDS = 24;
-    int NUMBER_OF_PLAYERS = 2;
 
     /**
      * Gets the field at the specified index
@@ -41,4 +40,19 @@ public interface ITable {
      * @return Deep copy of the table
      */
     ITable makeCopy();
+
+    /**
+     * Calculates the number of points for the given player
+     * @param playerId Player ID
+     * @return Number of points of the player
+     */
+    int calculateNumberOfPoints(PlayerId playerId);
+
+    int getPlayerOneBar();
+
+    int getPlayerTwoBar();
+
+    int getPlayerOneOff();
+
+    int getPlayerTwoOff();
 }

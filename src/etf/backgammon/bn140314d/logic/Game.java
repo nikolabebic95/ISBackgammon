@@ -52,6 +52,14 @@ public class Game implements IGame {
         ITable oldTable = table.makeCopy();
 
         for (int i = 0; i < move.numberOfMovedChips; i++) {
+            if (move.chipIndices[i] == -1) {
+                boolean canMove = table.spawnFromBar(move.playerId, move.chipMoves[i]);
+                if (!canMove) {
+                    table = oldTable;
+                    return false;
+                }
+            }
+
             boolean legal = table.moveChip(move.chipIndices[i], move.chipMoves[i]);
             if (!legal) {
                 table = oldTable;
@@ -64,28 +72,12 @@ public class Game implements IGame {
 
     @Override
     public int playerOnePoints() {
-        int ret = 0;
-        for (int i = 0; i < ITable.NUMBER_OF_FIELDS; i++) {
-            IField field = this.table.getField(i);
-            if (field.getPlayerId() == PlayerId.FIRST) {
-                ret += (i + 1) * field.getNumberOfChips();
-            }
-        }
-
-        return ret;
+        return table.calculateNumberOfPoints(PlayerId.FIRST);
     }
 
     @Override
     public int playerTwoPoints() {
-        int ret = 0;
-        for (int i = 0; i < ITable.NUMBER_OF_FIELDS; i++) {
-            IField field = this.table.getField(i);
-            if (field.getPlayerId() == PlayerId.SECOND) {
-                ret += (ITable.NUMBER_OF_FIELDS - i) * field.getNumberOfChips();
-            }
-        }
-
-        return ret;
+        return table.calculateNumberOfPoints(PlayerId.SECOND);
     }
 
     // endregion

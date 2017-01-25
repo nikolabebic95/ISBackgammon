@@ -156,5 +156,46 @@ public class Table implements ITable {
         return ret;
     }
 
+    @Override
+    public int calculateNumberOfPoints(PlayerId playerId) {
+        int ret = 0;
+
+        for (int i = 0; i < ITable.NUMBER_OF_FIELDS; i++) {
+            int multiple = playerId == PlayerId.FIRST ? i + 1 : ITable.NUMBER_OF_FIELDS - 1;
+            IField field = getField(i);
+            if (field.getPlayerId() == playerId) {
+                ret += multiple * field.getNumberOfChips();
+            }
+        }
+
+        if (playerId == PlayerId.FIRST) {
+            ret += playerOneBar * (ITable.NUMBER_OF_FIELDS + 1);
+        } else {
+            ret += playerTwoBar * (ITable.NUMBER_OF_FIELDS + 1);
+        }
+
+        return ret;
+    }
+
+    @Override
+    public int getPlayerOneBar() {
+        return playerOneBar;
+    }
+
+    @Override
+    public int getPlayerTwoBar() {
+        return playerTwoBar;
+    }
+
+    @Override
+    public int getPlayerOneOff() {
+        return playerOneOff;
+    }
+
+    @Override
+    public int getPlayerTwoOff() {
+        return playerTwoOff;
+    }
+
     // endregion
 }
