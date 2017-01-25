@@ -1,5 +1,7 @@
 package etf.backgammon.bn140314d.logic;
 
+import java.util.ArrayList;
+
 /**
  * @author Nikola Bebic
  * @version 25-Jan-2017
@@ -120,6 +122,10 @@ public class Table implements ITable {
             return true;
         }
 
+        if (newIndex < 0 || newIndex >= ITable.NUMBER_OF_FIELDS) {
+            return false;
+        }
+
         boolean ret = tryPutChip(playerId, newIndex);
         if (ret) {
             fields[index].decreaseNumberOfChips(playerId);
@@ -195,6 +201,18 @@ public class Table implements ITable {
     @Override
     public int getPlayerTwoOff() {
         return playerTwoOff;
+    }
+
+    @Override
+    public ArrayList<Integer> getAllIndicesWithPlayer(PlayerId playerId) {
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getPlayerId() == playerId) {
+                indices.add(i);
+            }
+        }
+
+        return indices;
     }
 
     // endregion

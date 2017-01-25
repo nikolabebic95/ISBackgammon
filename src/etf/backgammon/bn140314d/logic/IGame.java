@@ -1,5 +1,9 @@
 package etf.backgammon.bn140314d.logic;
 
+import etf.backgammon.bn140314d.players.Dice;
+
+import java.util.ArrayList;
+
 /**
  * @author Nikola Bebic
  * @version 25-Jan-2017
@@ -37,4 +41,12 @@ public interface IGame {
      * @return Number of points
      */
     int playerTwoPoints();
+
+    /**
+     * Calculates all possible moves for the player
+     * @param playerId Player ID
+     * @param dice Dice roll
+     * @return Array of all possible moves
+     */
+    ArrayList<Move> calculateAllPossibleMoves(PlayerId playerId, Dice dice);
 }

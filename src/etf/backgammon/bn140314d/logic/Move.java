@@ -12,4 +12,11 @@ public class Move {
     public int[] chipIndices;
     public int[] chipMoves;
     public int numberOfMovedChips;
+
+    public Move(PlayerId playerId, int numberOfMovedChips) {
+        this.playerId = playerId;
+        this.numberOfMovedChips = numberOfMovedChips;
+        this.chipIndices = new int[numberOfMovedChips];
+        this.chipMoves = new int[numberOfMovedChips];
+    }
 }

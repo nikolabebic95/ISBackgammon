@@ -1,5 +1,7 @@
 package etf.backgammon.bn140314d.logic;
 
+import java.util.ArrayList;
+
 /**
  * @author Nikola Bebic
  * @version 25-Jan-2017
@@ -10,6 +12,11 @@ public interface ITable {
      * Total number of fields on the table
      */
     int NUMBER_OF_FIELDS = 24;
+
+    /**
+     * Total number of checkers per player
+     */
+    int NUMBER_OF_CHECKERS_PER_PLAYER = 15;
 
     /**
      * Gets the field at the specified index
@@ -55,4 +62,6 @@ public interface ITable {
     int getPlayerOneOff();
 
     int getPlayerTwoOff();
+
+    ArrayList<Integer> getAllIndicesWithPlayer(PlayerId playerId);
 }
