@@ -16,4 +16,12 @@ public enum PlayerId {
             return PlayerId.FIRST;
         }
     }
+
+    public String toString() {
+        if (this == PlayerId.FIRST) {
+            return "Yoda";
+        } else {
+            return "Stormtrooper";
+        }
+    }
 }

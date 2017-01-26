@@ -55,4 +55,10 @@ public interface IGame {
      * @return Deep copy of the game
      */
     IGame makeCopy();
+
+    /**
+     * Gets the game table
+     * @return The game table
+     */
+    ITable table();
 }

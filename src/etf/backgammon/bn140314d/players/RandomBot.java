@@ -18,6 +18,11 @@ public class RandomBot implements IPlayer {
         Random random = new Random();
 
         ArrayList<Move> moves = game.calculateAllPossibleMoves(myId, dice);
+
+        if (moves.size() == 0) {
+            return null;
+        }
+
         return moves.get(random.nextInt(moves.size()));
     }
 

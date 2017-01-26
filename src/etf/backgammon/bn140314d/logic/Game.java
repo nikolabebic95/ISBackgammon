@@ -247,5 +247,10 @@ public class Game implements IGame {
         return ret;
     }
 
+    @Override
+    public ITable table() {
+        return table;
+    }
+
     // endregion
 }

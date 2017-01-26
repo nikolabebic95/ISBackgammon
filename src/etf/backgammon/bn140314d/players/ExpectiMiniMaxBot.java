@@ -36,8 +36,8 @@ public class ExpectiMiniMaxBot implements IPlayer {
             double sum = 0;
             int num = 0;
 
-            for (int i = 1; i < Dice.DICE_MAX; i++) {
-                for (int j = 1; j < Dice.DICE_MAX; j++) {
+            for (int i = 1; i <= Dice.DICE_MAX; i++) {
+                for (int j = 1; j <= Dice.DICE_MAX; j++) {
                     Dice dice = new Dice(i, j);
                     Node child = new Node(node.game, node.depth - 1, node.playerId, dice, false);
                     sum += expectiMinimax(child);
