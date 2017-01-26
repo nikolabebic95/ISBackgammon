@@ -4,19 +4,14 @@ import java.util.Random;
 
 /**
  * @author Nikola Bebic
- * @version 25-Jan-2017
+ * @version 26-Jan-2017
  */
 public class Dice {
 
-    // region Private fields and constructor
+    // region Private fields
 
     private int smallerDie;
     private int greaterOrEqualDie;
-
-    private Dice(int smallerDie, int greaterOrEqualDie) {
-        this.smallerDie = smallerDie;
-        this.greaterOrEqualDie = greaterOrEqualDie;
-    }
 
     // endregion
 
@@ -33,9 +28,13 @@ public class Dice {
     // endregion
 
     // region Dice roll implementation
-
-    private static final int DICE_MAX = 6;
+    public static final int DICE_MAX = 6;
     private static final Random randomGenerator = new Random();
+
+    public Dice(int smallerDie, int greaterOrEqualDie) {
+        this.smallerDie = smallerDie;
+        this.greaterOrEqualDie = greaterOrEqualDie;
+    }
 
     public static Dice roll() {
         int small = randomGenerator.nextInt(DICE_MAX) + 1;

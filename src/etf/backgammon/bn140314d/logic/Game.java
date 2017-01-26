@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * @author Nikola Bebic
- * @version 25-Jan-2017
+ * @version 26-Jan-2017
  */
 public class Game implements IGame {
 
@@ -20,10 +20,10 @@ public class Game implements IGame {
     // region Helpers
 
     private void arrangeStartingPositions() {
-        table.getField(18).increaseNumberOfChips(PlayerId.FIRST, 5);
-        table.getField(16).increaseNumberOfChips(PlayerId.FIRST, 3);
-        table.getField(11).increaseNumberOfChips(PlayerId.FIRST, 5);
         table.getField(0).increaseNumberOfChips(PlayerId.FIRST, 2);
+        table.getField(11).increaseNumberOfChips(PlayerId.FIRST, 5);
+        table.getField(16).increaseNumberOfChips(PlayerId.FIRST, 3);
+        table.getField(18).increaseNumberOfChips(PlayerId.FIRST, 5);
 
         table.getField(5).increaseNumberOfChips(PlayerId.SECOND, 5);
         table.getField(7).increaseNumberOfChips(PlayerId.SECOND, 3);
@@ -59,6 +59,10 @@ public class Game implements IGame {
     public boolean tryPlayMove(Move move) {
         if (winner != PlayerId.NONE) {
             return false;
+        }
+
+        if (move == null) {
+            return true;
         }
 
         ITable oldTable = table.makeCopy();
@@ -139,6 +143,10 @@ public class Game implements IGame {
         ArrayList<Integer> indices = table.getAllIndicesWithPlayer(playerId);
         for (Integer i : indices) {
             for (Integer j : indices) {
+                if (i.equals(j) && table.getField(i).getNumberOfChips() == 1) {
+                    continue;
+                }
+
                 ITable copy = table.makeCopy();
                 boolean ok = copy.moveChip(i, dice.getSmallerDie());
                 if (ok) {
@@ -156,6 +164,86 @@ public class Game implements IGame {
             }
         }
 
+        for (Integer i : indices) {
+            ITable copy = table.makeCopy();
+            boolean ok = copy.moveChip(i, dice.getSmallerDie());
+            if (ok) {
+                int newIndex;
+                if (playerId == PlayerId.FIRST) {
+                    newIndex = i + dice.getSmallerDie();
+                } else {
+                    newIndex = i - dice.getSmallerDie();
+                }
+                if (newIndex >= 0 && newIndex < ITable.NUMBER_OF_FIELDS) {
+                    ok = copy.moveChip(newIndex, dice.getGreaterOrEqualDie());
+                    if (ok) {
+                        Move move = new Move(playerId, 2);
+                        move.chipIndices[0] = i;
+                        move.chipIndices[1] = newIndex;
+                        move.chipMoves[0] = dice.getSmallerDie();
+                        move.chipIndices[1] = dice.getGreaterOrEqualDie();
+                        ret.add(move);
+                    }
+                }
+            }
+
+            if (dice.getGreaterOrEqualDie() == dice.getGreaterOrEqualDie()) {
+                continue;
+            }
+
+            copy = table.makeCopy();
+            ok = copy.moveChip(i, dice.getGreaterOrEqualDie());
+            if (ok) {
+                int newIndex;
+                if (playerId == PlayerId.FIRST) {
+                    newIndex = i + dice.getGreaterOrEqualDie();
+                } else {
+                    newIndex = i - dice.getGreaterOrEqualDie();
+                }
+                if (newIndex >= 0 && newIndex < ITable.NUMBER_OF_FIELDS) {
+                    ok = copy.moveChip(newIndex, dice.getSmallerDie());
+                    if (ok) {
+                        Move move = new Move(playerId, 2);
+                        move.chipIndices[0] = i;
+                        move.chipIndices[1] = newIndex;
+                        move.chipMoves[0] = dice.getGreaterOrEqualDie();
+                        move.chipIndices[1] = dice.getSmallerDie();
+                        ret.add(move);
+                    }
+                }
+            }
+        }
+
+        if (ret.size() == 0) {
+            for (Integer i : indices) {
+                ITable copy = table.makeCopy();
+                boolean ok = copy.moveChip(i, dice.getSmallerDie());
+                if (ok) {
+                    Move move = new Move(playerId, 1);
+                    move.chipIndices[0] = i;
+                    move.chipMoves[0] = dice.getSmallerDie();
+                    ret.add(move);
+                }
+
+                copy = table.makeCopy();
+                ok = copy.moveChip(i, dice.getGreaterOrEqualDie());
+                if (ok) {
+                    Move move = new Move(playerId, 1);
+                    move.chipIndices[0] = i;
+                    move.chipMoves[0] = dice.getGreaterOrEqualDie();
+                    ret.add(move);
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    public IGame makeCopy() {
+        Game ret = new Game();
+        ret.table = this.table.makeCopy();
+        ret.winner = this.winner;
         return ret;
     }
 

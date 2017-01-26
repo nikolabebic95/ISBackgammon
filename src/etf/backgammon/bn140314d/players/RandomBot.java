@@ -9,18 +9,12 @@ import java.util.Random;
 
 /**
  * @author Nikola Bebic
- * @version 25-Jan-2017
+ * @version 26-Jan-2017
  */
 public class RandomBot implements IPlayer {
 
-    private Game game;
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
     @Override
-    public Move playMove(ITable table, PlayerId myId, Dice dice) {
+    public Move playMove(IGame game, PlayerId myId, Dice dice) {
         Random random = new Random();
 
         ArrayList<Move> moves = game.calculateAllPossibleMoves(myId, dice);
@@ -42,12 +36,12 @@ public class RandomBot implements IPlayer {
         graphicTable.repaint();
 
         RandomBot bot = new RandomBot();
-        bot.setGame(game);
+
 
         for (int i = 0; i < 50; i++) {
-            Move move = bot.playMove(table, PlayerId.FIRST, Dice.roll());
+            Move move = bot.playMove(game, PlayerId.FIRST, Dice.roll());
             game.tryPlayMove(move);
-            move = bot.playMove(table, PlayerId.SECOND, Dice.roll());
+            move = bot.playMove(game, PlayerId.SECOND, Dice.roll());
             game.tryPlayMove(move);
         }
 

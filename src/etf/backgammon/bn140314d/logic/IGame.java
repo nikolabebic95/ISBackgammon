@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * @author Nikola Bebic
- * @version 25-Jan-2017
+ * @version 26-Jan-2017
  */
 public interface IGame {
 
@@ -49,4 +49,10 @@ public interface IGame {
      * @return Array of all possible moves
      */
     ArrayList<Move> calculateAllPossibleMoves(PlayerId playerId, Dice dice);
+
+    /**
+     * Makes a deep copy of the game and returns it
+     * @return Deep copy of the game
+     */
+    IGame makeCopy();
 }

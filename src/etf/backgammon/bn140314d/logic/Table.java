@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Nikola Bebic
- * @version 25-Jan-2017
+ * @version 26-Jan-2017
  */
 public class Table implements ITable {
 
@@ -144,7 +144,17 @@ public class Table implements ITable {
             index = ITable.NUMBER_OF_FIELDS - numberOfFields;
         }
 
-        return tryPutChip(playerId, index);
+        boolean ret = tryPutChip(playerId, index);
+
+        if (ret) {
+            if (playerId == PlayerId.FIRST) {
+                playerOneBar--;
+            } else {
+                playerTwoBar--;
+            }
+        }
+
+        return ret;
     }
 
     @Override
