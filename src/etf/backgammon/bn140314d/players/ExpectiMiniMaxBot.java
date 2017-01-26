@@ -26,6 +26,29 @@ public class ExpectiMiniMaxBot implements IPlayer {
         return node.bestMove;
     }
 
+    /**
+     *
+     * @param node Node from which the search is run
+     * @return Evaluation of the best move
+     *
+     * Algorithm:
+     *
+     * 1) If the maximum depth was reached, return the evaluation
+     * 2) If node type is Dice throw:
+     *    1) Generate all possible dice rolls
+     *    2) Generate nodes from dice rolls
+     *    3) Call expectiMinimax on each node
+     *    4) Return the average of the children nodes
+     * 3) If node type is player (MIN or MAX)
+     *    1) Check for winner
+     *       1) If MIN is the winner, return 0
+     *       2) If MAX is the winner, return positive infinity
+     *    2) Generate all possible moves
+     *    3) Try to play all possible moves
+     *    4) Call expectiMinimax on each move
+     *    5) Find the best of all moves and return it
+     *
+     */
     private double expectiMinimax(Node node) {
         if (node.depth == 0) {
             node.calculateValue();
@@ -114,6 +137,8 @@ public class ExpectiMiniMaxBot implements IPlayer {
         return node.value;
     }
 
+    // region Test
+
     public static void main(String[] args) {
         Game game = new Game();
         Table table = new Table(new FieldFactory());
@@ -165,16 +190,51 @@ public class ExpectiMiniMaxBot implements IPlayer {
 
         graphicTable.repaint();
     }
+
+    // endregion
 }
 
+/**
+ * Represents the node of the ExpectiMinimax Algorithm
+ */
 class Node {
+    /**
+     * Game object for the node
+     * Should be copied for children nodes, if the change is needed
+     */
     IGame game;
+
+    /**
+     * Value the expectiMinimax algorithm calculates
+     */
     double value;
+
+    /**
+     * How much more in depth should we go
+     */
     int depth;
+
+    /**
+     * Current player ID
+     * Dice throw player ID changes before the dice throw
+     */
     PlayerId playerId;
+
+    /**
+     * Dice throw
+     */
     Dice dice;
+
+    /**
+     * Whether the node type is Dice
+     */
     boolean isDice;
-    Move bestMove;
+
+    /**
+     * Best move of this node
+     * If the node has no moves, null
+     */
+    Move bestMove = null;
 
     Node(IGame game, int depth, PlayerId playerId, Dice dice, boolean isDice) {
         this.game = game;
@@ -184,6 +244,12 @@ class Node {
         this.isDice = isDice;
     }
 
+    /**
+     * Evaluation function
+     *
+     * Calculates the ratio between player 1 points and player 2 points
+     * Player 1 is MIN, player 2 is MAX
+     */
     void calculateValue() {
         double playerOne = game.playerOnePoints();
         double playerTwo = game.playerTwoPoints();

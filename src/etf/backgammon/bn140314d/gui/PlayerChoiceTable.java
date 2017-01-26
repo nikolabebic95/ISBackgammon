@@ -26,7 +26,7 @@ public class PlayerChoiceTable extends GraphicTable implements MouseListener, Mo
 
     // endregion
 
-    // Public interface
+    // region Public interface
 
     public PlayerChoiceTable(ITable tableImplementation, Game game) {
         super(tableImplementation);
@@ -104,6 +104,10 @@ public class PlayerChoiceTable extends GraphicTable implements MouseListener, Mo
             }
 
             repaint();
+
+            if (game.checkWinner() != PlayerId.NONE) {
+                JOptionPane.showMessageDialog(this, "Winner: " + game.checkWinner().toString());
+            }
         }
     }
 

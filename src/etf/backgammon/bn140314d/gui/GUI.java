@@ -39,9 +39,9 @@ public final class GUI extends JFrame {
 
     private Dice dice = Dice.roll();
 
-    private JLabel label = new JLabel("Dice: " + dice.getSmallerDie() + ", " + dice.getGreaterOrEqualDie());
+    private JLabel label = new JLabel("Dice: " + dice.getSmallerDie() + ", " + dice.getGreaterOrEqualDie(), SwingConstants.CENTER);
 
-    private JLabel label2 = new JLabel(onMove.toString() + " plays");
+    private JLabel label2 = new JLabel(onMove.toString() + " plays", SwingConstants.CENTER);
 
     private final JPanel left = new JPanel(new GridLayout(5, 1));
 
@@ -67,7 +67,7 @@ public final class GUI extends JFrame {
             game.tryPlayMove(move);
             repaint();
             if (game.checkWinner() != PlayerId.NONE) {
-                JOptionPane.showMessageDialog(this, "Winner", game.checkWinner().toString(), JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Winner: " + game.checkWinner().toString());
             }
         });
 
@@ -76,7 +76,7 @@ public final class GUI extends JFrame {
             game.tryPlayMove(move);
             repaint();
             if (game.checkWinner() != PlayerId.NONE) {
-                JOptionPane.showMessageDialog(this, "Winner", game.checkWinner().toString(), JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Winner: " + game.checkWinner().toString());
             }
         });
 
