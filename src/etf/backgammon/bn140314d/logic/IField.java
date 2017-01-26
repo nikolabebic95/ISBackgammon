@@ -4,7 +4,7 @@ package etf.backgammon.bn140314d.logic;
  * @author Nikola Bebic
  * @version 25-Jan-2017
  */
-public interface IField extends Cloneable {
+public interface IField {
 
     /**
      * Gets the player ID of the field

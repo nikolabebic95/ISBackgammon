@@ -14,6 +14,7 @@ public interface IGame {
 
     /**
      * Prepares the object for the game start
+     * @param newTable Clean table object that will be used by the game
      */
     void start(ITable newTable);
 
